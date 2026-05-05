@@ -10,8 +10,7 @@ const BookCard = ({book}) => {
                 <Image
                     src={book.image_url}
                     alt={book.title}
-                    width={150} height={50} />
-                    
+                    width={150} height={50} /> 
             </figure>
             <div className="card-body text-center">
                 <h2 className="text-2xl font-semibold">{book.title}</h2>
