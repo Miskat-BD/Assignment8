@@ -1,7 +1,11 @@
 import Banner from "@/components/homepage/Banner";
+import NewArrival from "@/components/homepage/NewArrival";
 
 export default function Home() {
   return (
-    <Banner />
+    <>
+      <Banner />
+      <NewArrival />
+    </>
   )
 }
