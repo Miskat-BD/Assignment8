@@ -1,12 +1,9 @@
 import React from 'react';
 import BookCard from '../shared/BookCard';
-const getBooks = async ()=>{
-    const res = await fetch('https://booknest-server-8uc0.onrender.com/books')
-    const data = await res.json();
-    return data
-}
+import { getAllBooks } from '@/lib/data';
+
 const FeaturedSection = async () => {
-    const books = await getBooks();
+    const books = await getAllBooks();
     // console.log(books, 'books');
     return (
         <div className='container mx-auto text-center my-10'>
