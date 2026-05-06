@@ -1,15 +1,34 @@
-import {Check} from "@gravity-ui/icons";
-import {Button, Description, FieldError, Form, Input, Label, TextField} from "@heroui/react";
+'use client'
+import { authClient } from "@/lib/auth-client";
+import { Check, Eye, EyeSlash } from "@gravity-ui/icons";
+import { Button, Description, FieldError, Form, Input, InputGroup, Label, TextField } from "@heroui/react";
+import Link from "next/link";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
 
 const LoginPage = () => {
+    const [isVisible, setIsVisible] = useState(false);
+    const {register, handleSubmit} = useForm();
+    const handleLogin = async(data)=>{
+        // console.log(data, 'data login');
+        const {data : res, error} = await authClient.signIn.email({
+            email:data.email,
+            password: data.password,
+            rememberMe: true,
+            callbackURL: '/'
+        })
+       console.log(res, error, 'login');
+    }
     return (
-        <div>
+        <div className='container mx-auto bg-purple-100 min-h-[80vh] flex justify-center items-center mt-6'>
             <Form
+                onSubmit={handleSubmit(handleLogin)}
                 className="flex w-96 flex-col gap-4"
                 render={(props) => <form {...props} data-custom="foo" />}
-                onSubmit={onSubmit}
+            // onSubmit={onSubmit}
             >
                 <TextField
+                className='w-full max-w-70'
                     isRequired
                     name="email"
                     type="email"
@@ -21,41 +40,40 @@ const LoginPage = () => {
                     }}
                 >
                     <Label>Email</Label>
-                    <Input placeholder="john@example.com" />
+                    <Input {...register('email')} className='rounded-xl' placeholder="john@example.com" />
                     <FieldError />
                 </TextField>
-                <TextField
-                    isRequired
-                    minLength={8}
-                    name="password"
-                    type="password"
-                    validate={(value) => {
-                        if (value.length < 8) {
-                            return "Password must be at least 8 characters";
-                        }
-                        if (!/[A-Z]/.test(value)) {
-                            return "Password must contain at least one uppercase letter";
-                        }
-                        if (!/[0-9]/.test(value)) {
-                            return "Password must contain at least one number";
-                        }
-                        return null;
-                    }}
-                >
+                <TextField className="w-full max-w-70" name="password">
                     <Label>Password</Label>
-                    <Input placeholder="Enter your password" />
-                    <Description>Must be at least 8 characters with 1 uppercase and 1 number</Description>
-                    <FieldError />
+                    <InputGroup>
+                        <InputGroup.Input
+                            className="w-full max-w-70"
+                            type={isVisible ? "text" : "password"}
+                             {...register('password')}
+                        />
+                        <InputGroup.Suffix className="pr-0">
+                            <Button
+                                isIconOnly
+                                aria-label={isVisible ? "Hide password" : "Show password"}
+                                size="sm"
+                                variant="ghost"
+                                onPress={() => setIsVisible(!isVisible)}
+                            >
+                                {isVisible ? <Eye className="size-4" /> : <EyeSlash className="size-4" />}
+                            </Button>
+                        </InputGroup.Suffix>
+                    </InputGroup>
                 </TextField>
                 <div className="flex gap-2">
                     <Button type="submit">
                         <Check />
-                        Submit
+                        Login
                     </Button>
                     <Button type="reset" variant="secondary">
                         Reset
                     </Button>
                 </div>
+                    <p>Do not have Account?<Link href={'/register'} className="text-blue-400">Register</Link></p>
             </Form>
         </div>
     );
