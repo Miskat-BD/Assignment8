@@ -30,7 +30,6 @@ const RegisterPage = () => {
             }
         )
         // console.log(res, error, 'logup');
-
         if (res) {
             toast.success("Register successfully")
         }

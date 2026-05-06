@@ -8,7 +8,7 @@ import React from 'react';
 const MyProfilePage = () => {
     const { data: session } = authClient.useSession()
     const user = session?.user
-    if(!user){
+    if (!user) {
         redirect('/login')
     }
     return (
