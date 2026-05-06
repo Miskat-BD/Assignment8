@@ -5,6 +5,9 @@ import { toast } from 'react-toastify';
 
 const BookDetailsClient = ({books, id}) => {
     const book = books.find(book => book.id == id)
+     if(!book){
+        return <h1 className='text-4xl text-center p-20'>Book Not Found!</h1>
+    }
     const handleBorrowBtn = () => {
         toast.success(`${book.title} is Borrow Successfully`)
     }

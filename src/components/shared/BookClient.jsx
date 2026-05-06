@@ -1,11 +1,21 @@
-import React from 'react';
+'use client'
+import React, { useState } from 'react';
 import Sidebar from './Sidebar';
 import BookCard from './BookCard';
 
-const BookClient = ({books}) => {
+const BookClient = ({ books }) => {
     // console.log(books, 'books clinet');
+    const [search, setSearch] = useState('');
+    const [category, setCategory] = useState('All')
+    // console.log(search, 'search value');
+    // console.log(category, 'catehopry value');
+    const filteredBooks = books.filter(book =>
+        book.title.toLowerCase().includes(search.toLowerCase()) &&
+        (category === 'All' || book.category === category)
+    );
+
     return (
-         <div>
+        <div>
             <h1 className='text-4xl font-bold text-center my-7'>All Books</h1>
             {/* Search input */}
             <div className="m-3">
@@ -22,14 +32,14 @@ const BookClient = ({books}) => {
                             <path d="m21 21-4.3-4.3"></path>
                         </g>
                     </svg>
-                    <input type="search" required placeholder="Search" />
+                    <input onChange={(e) => setSearch(e.target.value)} type="search" required placeholder="Search" />
                 </label>
             </div>
             <div className="flex gap-6">
-                <div className=""><Sidebar /></div>
+                <div className=""><Sidebar setCategory={setCategory} /></div>
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
                     {
-                        books.map(book => <BookCard key={book.id} book={book}></BookCard>)
+                        filteredBooks.map(book => <BookCard key={book.id} book={book}></BookCard>)
                     }
                 </div>
             </div>
