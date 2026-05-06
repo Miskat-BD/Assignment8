@@ -5,10 +5,17 @@ import { Check, Eye, EyeSlash } from "@gravity-ui/icons";
 import { useForm } from 'react-hook-form';
 import { authClient } from '@/lib/auth-client';
 import { toast } from 'react-toastify';
+import Link from 'next/link';
+import { redirect } from 'next/navigation';
 
 
 const UpdateUserPage = () => {
     const { register, handleSubmit } = useForm();
+    const { data: session } = authClient.useSession()
+    const user = session?.user
+    if(!user){
+        redirect('/login')
+    }
     const handleUpdate = async (data) => {
         // console.log(data, 'update');
         await authClient.updateUser({
@@ -56,6 +63,7 @@ const UpdateUserPage = () => {
                     <Button type="reset" variant="secondary">
                         Reset
                     </Button>
+                    <Link href={'/my-profile'}><button className='btn rounded-full btn-info'>Go Back Profile</button></Link>
                 </div>
             </Form>
         </div>

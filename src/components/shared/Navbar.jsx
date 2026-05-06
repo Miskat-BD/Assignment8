@@ -37,7 +37,7 @@ const Navbar = () => {
                 {
                     isPending ? <span className="loading loading-ring loading-xl"></span> : user ? <div className="flex justify-between gap-2 items-center">
                         <h1>Welcome, {user.name}</h1>
-                        <button className="btn bg-linear-to-l from-[#9514FA] to-[#4F39F6] text-white" onClick={async () => await authClient.signOut()}>LogOut</button>
+                        <button className="btn bg-linear-to-l from-[#9514FA] to-[#4F39F6] text-white" onClick={async () => await authClient.signOut()}>Log Out</button>
                     </div> : <Link href={'/login'} className=""><button className="btn bg-linear-to-l from-[#9514FA] to-[#4F39F6] text-white">Login</button></Link>
                 }
             </div>
