@@ -1,7 +1,7 @@
 'use client'
 import React from 'react';
 
-const Sidebar = ({setCategory}) => {
+const Sidebar = ({setCategory, category}) => {
 
     return (
         <div className='mb-6'>
@@ -17,10 +17,10 @@ const Sidebar = ({setCategory}) => {
                     <label htmlFor="my-drawer-3" aria-label="close sidebar" className="drawer-overlay"></label>
                     <ul className="menu bg-base-200 min-h-full w-80 p-4">
                         {/* Sidebar content here */}
-                        <li onClick={()=>setCategory('All')}><a>All</a></li>
-                        <li onClick={()=>setCategory('Science')}><a>Science</a></li>
-                        <li onClick={()=>setCategory('Story')}><a>Story</a></li>
-                        <li onClick={()=>setCategory('Tech')}><a>Tech</a></li>
+                        <li className={`btn ${category == 'All' && "bg-purple-500 text-white"}`}  onClick={()=>setCategory('All')}><a>All</a></li>
+                        <li className={`btn ${category == 'Science' && "bg-purple-500 text-white"}`} onClick={()=>setCategory('Science')}><a>Science</a></li>
+                        <li className={`btn ${category == 'Story' && "bg-purple-500 text-white"}`} onClick={()=>setCategory('Story')}><a>Story</a></li>
+                        <li className={`btn ${category == 'Tech' && "bg-purple-500 text-white"}`} onClick={()=>setCategory('Tech')}><a>Tech</a></li>
                     </ul>
                 </div>
             </div>

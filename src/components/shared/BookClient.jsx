@@ -36,7 +36,7 @@ const BookClient = ({ books }) => {
                 </label>
             </div>
             <div className="flex gap-6">
-                <div className=""><Sidebar setCategory={setCategory} /></div>
+                <div className=""><Sidebar category={category} setCategory={setCategory} /></div>
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
                     {
                         filteredBooks.map(book => <BookCard key={book.id} book={book}></BookCard>)
