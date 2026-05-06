@@ -6,7 +6,10 @@ import { Button, Description, FieldError, Form, Input, InputGroup, Label, TextFi
 import Link from "next/link";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { useRouter } from 'next/navigation';
+import { toast } from 'react-toastify';
 const RegisterPage = () => {
+    const router = useRouter();
     const [isVisible, setIsVisible] = useState(false);
     const { register, handleSubmit } = useForm();
     const handleRegister = async (data) => {
@@ -16,15 +19,29 @@ const RegisterPage = () => {
             email: data.email,
             password: data.password,
             rememberMe: true,
+            image: data.photo,
             callbackURL: '/login'
-        })
-        console.log(res, error, 'logup');
+        },
+            {
+                onSuccess: () => {
+                    router.push('/login')
+                }
+            }
+        )
+        // console.log(res, error, 'logup');
+
+        if (res) {
+            toast.success("Register successfully")
+        }
+        if (error) {
+            toast.error(`${error.message}`)
+        }
     }
     return (
-        <div className='container mx-auto bg-purple-100 min-h-[80vh] flex justify-center items-center mt-6'>
+        <div className='container mx-auto bg-white min-h-[80vh] flex justify-center items-center mt-6'>
             <Form
                 onSubmit={handleSubmit(handleRegister)}
-                className="flex w-96 flex-col gap-4"
+                className="flex justify-center flex-col shadow-xl rounded-lg items-center bg-purple-100 mx-auto py-7 px-12 gap-4"
                 render={(props) => <form {...props} data-custom="foo" />}
             >
                 {/* name */}
@@ -33,7 +50,7 @@ const RegisterPage = () => {
                     isRequired
                     name="name"
                     type="text"
-                   
+
                 >
                     <Label>Name</Label>
                     <Input {...register('name')} className='rounded-xl' placeholder="Type Your Name" />
@@ -54,6 +71,17 @@ const RegisterPage = () => {
                 >
                     <Label>Email</Label>
                     <Input {...register('email')} className='rounded-xl' placeholder="john@example.com" />
+                    <FieldError />
+                </TextField>
+                <TextField
+                    className='w-full max-w-70'
+                    isRequired
+                    name="photo"
+                    type="text"
+
+                >
+                    <Label>Photo URL</Label>
+                    <Input {...register('photo')} className='rounded-xl' placeholder="Type Your Photo URL" />
                     <FieldError />
                 </TextField>
                 <TextField className="w-full max-w-70" name="password">

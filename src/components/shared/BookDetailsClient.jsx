@@ -1,14 +1,24 @@
 'use client'
+import { authClient } from '@/lib/auth-client';
 import Image from 'next/image';
+import { redirect } from 'next/navigation';
 import React from 'react';
 import { toast } from 'react-toastify';
 
 const BookDetailsClient = ({books, id}) => {
+    const {data: session} = authClient.useSession();
+    const user = session?.user
+
     const book = books.find(book => book.id == id)
      if(!book){
         return <h1 className='text-4xl text-center p-20'>Book Not Found!</h1>
     }
     const handleBorrowBtn = () => {
+        if(!user){
+            toast.warning("Please Log In");
+            redirect('/login')
+            // return
+        }
         toast.success(`${book.title} is Borrow Successfully`)
     }
     return (
